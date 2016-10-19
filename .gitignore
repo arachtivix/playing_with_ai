@@ -1,0 +1,14 @@
+.metadata/
+Servers/
+Bidders/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin
+Bidders/.gradle/2.2.1/taskArtifacts/outputFileStates.bin
+Bidders/.settings/gradle/org.springsource.ide.eclipse.gradle.refresh.prefs
+Bidders/.gradle/2.2.1/taskArtifacts/cache.properties
+Bidders/.gradle/2.2.1/taskArtifacts/cache.properties.lock
+Bidders/.gradle/2.2.1/taskArtifacts/fileHashes.bin
+Bidders/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin
+Bidders/.settings/org.eclipse.jdt.core.prefs
+Bidders/.project
+RemoteSystemsTempFiles/.project
+Bidders/.classpath
+Bidders/.settings/
