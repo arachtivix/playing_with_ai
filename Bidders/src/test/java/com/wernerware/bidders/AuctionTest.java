@@ -5,14 +5,16 @@ import java.util.LinkedList;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.wernerware.bidders.strategies.SplitTheDifferenceBidder;
+
 public class AuctionTest {
 
 	@Test
 	public void noWinnerUntilAuctionRunTest() {
 		
-		LinkedList<Bidder> bidders = new LinkedList<Bidder>();
-		bidders.add(new Bidder(100d,"Harold"));
-		bidders.add(new Bidder(150d,"Spanky"));
+		LinkedList<SplitTheDifferenceBidder> bidders = new LinkedList<SplitTheDifferenceBidder>();
+		bidders.add(new SplitTheDifferenceBidder(100d,"Harold"));
+		bidders.add(new SplitTheDifferenceBidder(150d,"Spanky"));
 		
 		Auction auction = new Auction(bidders, 1000);
 		

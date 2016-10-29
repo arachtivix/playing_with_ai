@@ -1,17 +1,23 @@
-package com.wernerware.bidders;
+package com.wernerware.bidders.strategies;
 
 import java.util.List;
 
-public class Bidder {
+import com.wernerware.bidders.Auction;
+import com.wernerware.bidders.Bid;
+
+public class SplitTheDifferenceBidder implements Bidder {
 	
 	private double valueAsserted;
 	private String name;
 	
-	public Bidder(double valueAsserted, String name){
+	public SplitTheDifferenceBidder(double valueAsserted, String name){
 		this.valueAsserted = valueAsserted;
 		this.name = name;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.wernerware.bidders.strategies.Bidder#bidOnAuction(com.wernerware.bidders.Auction, java.util.List)
+	 */
 	public Bid bidOnAuction(Auction a, List<Bid> history){
 		if( history.size() > 1 ){
 			double last = history.get(history.size() - 1).amount;

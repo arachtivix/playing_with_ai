@@ -3,16 +3,19 @@ package com.wernerware.bidders;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.wernerware.bidders.strategies.Bidder;
+import com.wernerware.bidders.strategies.SplitTheDifferenceBidder;
+
 public class Auction {
 	
-	private List<Bidder> bidders;
+	private List<SplitTheDifferenceBidder> bidders;
 	private Bid lastBid;
 	private boolean auctionDone = false;
 	private int maxRounds;
 	
 	private List<Bid> biddingHistory;
 	
-	public Auction(List<Bidder> bidders, int maxRounds){
+	public Auction(List<SplitTheDifferenceBidder> bidders, int maxRounds){
 		biddingHistory = new LinkedList<Bid>();
 		this.bidders = bidders;
 		this.maxRounds = maxRounds;

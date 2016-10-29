@@ -1,5 +1,7 @@
 package com.wernerware.bidders;
 
+import com.wernerware.bidders.strategies.Bidder;
+
 public class Bid {
 	
 	public Bid(Bidder bidder, double amount){
