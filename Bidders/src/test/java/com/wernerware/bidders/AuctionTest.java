@@ -11,8 +11,8 @@ public class AuctionTest {
 	public void noWinnerUntilAuctionRunTest() {
 		
 		LinkedList<Bidder> bidders = new LinkedList<Bidder>();
-		bidders.add(new Bidder(100d));
-		bidders.add(new Bidder(150d));
+		bidders.add(new Bidder(100d,"Harold"));
+		bidders.add(new Bidder(150d,"Spanky"));
 		
 		Auction auction = new Auction(bidders, 1000);
 		

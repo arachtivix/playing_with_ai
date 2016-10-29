@@ -5,9 +5,11 @@ import java.util.List;
 public class Bidder {
 	
 	private double valueAsserted;
+	private String name;
 	
-	public Bidder(double valueAsserted){
+	public Bidder(double valueAsserted, String name){
 		this.valueAsserted = valueAsserted;
+		this.name = name;
 	}
 	
 	public Bid bidOnAuction(Auction a, List<Bid> history){
@@ -22,6 +24,11 @@ public class Bidder {
 		} else {
 			return new Bid(this,valueAsserted / 2);
 		}
+	}
+	
+	@Override
+	public String toString(){
+		return name + " @iv " + valueAsserted;
 	}
 
 }
