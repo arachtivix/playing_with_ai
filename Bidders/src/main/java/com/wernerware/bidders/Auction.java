@@ -1,36 +1,59 @@
 package com.wernerware.bidders;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Auction {
 	
 	private List<Bidder> bidders;
-	private double lastBid;
-	private Bidder highestBidder;
+	private Bid lastBid;
 	private boolean auctionDone = false;
+	private int maxRounds;
 	
-	public Auction(List<Bidder> bidders){
+	private List<Bid> biddingHistory;
+	
+	public Auction(List<Bidder> bidders, int maxRounds){
+		biddingHistory = new LinkedList<Bid>();
 		this.bidders = bidders;
+		this.maxRounds = maxRounds;
 	}
 	
-	public void runAuction(){
-		auctionDone = true;
-	}
-	
-	public Bidder getWinner() throws Exception {
-		if( !auctionDone ){
-			throw new Exception("Auction not done yet!");
-		} else {
-			return highestBidder;
+	public void runAuction() {
+		int numNoBidsInARow = 0;
+		int round = 0;
+		while( round < maxRounds ){
+			System.out.println("Round " + round++);
+			for( Bidder b : bidders ){
+				Bid bid = b.bidOnAuction(this,biddingHistory);
+				if( bid != null && (biddingHistory.size() == 0 || biddingHistory.get(biddingHistory.size() - 1).amount < bid.amount) ){
+					System.out.println(bid);
+					biddingHistory.add(bid);
+					numNoBidsInARow = 0;
+					lastBid = bid;
+				} else {
+					System.out.println(b + " did not bid");
+					numNoBidsInARow++;
+				}
+				
+				if( numNoBidsInARow >= bidders.size() - 1 ){
+					System.out.println("Auction over: " + lastBid.bidder + " won with " + lastBid.amount);
+					auctionDone = true;
+					return;
+				}
+			}
 		}
 	}
 	
-	public double getWinningBid() throws Exception {
+	public Bid getWinningBid() throws Exception {
 		if( !auctionDone ){
 			throw new Exception("Auction not done yet!");
 		} else {
 			return lastBid;
 		}
+	}
+	
+	public List<Bid> getBiddingHistory(){
+		return biddingHistory;
 	}
 	
 }

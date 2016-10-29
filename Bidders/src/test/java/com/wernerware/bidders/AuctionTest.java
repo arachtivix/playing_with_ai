@@ -11,11 +11,14 @@ public class AuctionTest {
 	public void noWinnerUntilAuctionRunTest() {
 		
 		LinkedList<Bidder> bidders = new LinkedList<Bidder>();
-		Auction auction = new Auction(bidders);
+		bidders.add(new Bidder(100d));
+		bidders.add(new Bidder(150d));
+		
+		Auction auction = new Auction(bidders, 1000);
 		
 		boolean winnerException = false;
 		try{
-			auction.getWinner();
+			auction.getWinningBid();
 		} catch( Exception e ){
 			winnerException = true;
 		}
@@ -34,7 +37,7 @@ public class AuctionTest {
 
 		winnerException = false;
 		try{
-			auction.getWinner();
+			auction.getWinningBid();
 		} catch( Exception e ){
 			winnerException = true;
 		}
