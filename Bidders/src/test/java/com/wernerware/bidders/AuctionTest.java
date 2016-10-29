@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.wernerware.bidders.strategies.Bidder;
 import com.wernerware.bidders.strategies.SplitTheDifferenceBidder;
 
 public class AuctionTest {
@@ -12,11 +13,18 @@ public class AuctionTest {
 	@Test
 	public void noWinnerUntilAuctionRunTest() {
 		
-		LinkedList<SplitTheDifferenceBidder> bidders = new LinkedList<SplitTheDifferenceBidder>();
-		bidders.add(new SplitTheDifferenceBidder(100d,"Harold"));
-		bidders.add(new SplitTheDifferenceBidder(150d,"Spanky"));
+		LinkedList<Bidder> bidders = new LinkedList<Bidder>();
+		Item item = new Item();
 		
-		Auction auction = new Auction(bidders, 1000);
+		Bidder harold = new SplitTheDifferenceBidder("Harold");
+		harold.setImputedValue(item, 100d);
+		Bidder spanky = new SplitTheDifferenceBidder("Spanky");
+		spanky.setImputedValue(item, 150d);
+		
+		bidders.add(harold);
+		bidders.add(spanky);
+		
+		Auction auction = new Auction(bidders, item, 1000);
 		
 		boolean winnerException = false;
 		try{

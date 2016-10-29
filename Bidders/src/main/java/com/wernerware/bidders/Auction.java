@@ -8,17 +8,19 @@ import com.wernerware.bidders.strategies.SplitTheDifferenceBidder;
 
 public class Auction {
 	
-	private List<SplitTheDifferenceBidder> bidders;
+	private List<Bidder> bidders;
+	private Item item;
 	private Bid lastBid;
 	private boolean auctionDone = false;
 	private int maxRounds;
 	
 	private List<Bid> biddingHistory;
 	
-	public Auction(List<SplitTheDifferenceBidder> bidders, int maxRounds){
+	public Auction(List<Bidder> bidders, Item item, int maxRounds){
 		biddingHistory = new LinkedList<Bid>();
 		this.bidders = bidders;
 		this.maxRounds = maxRounds;
+		this.item = item;
 	}
 	
 	public void runAuction() {
@@ -57,6 +59,14 @@ public class Auction {
 	
 	public List<Bid> getBiddingHistory(){
 		return biddingHistory;
+	}
+	
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
 	}
 	
 }
