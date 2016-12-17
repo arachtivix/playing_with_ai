@@ -2,6 +2,8 @@ package com.wernerware.words.featurizers;
 
 import java.util.HashSet;
 
+import com.wernerware.words.TrainingContext;
+
 public class VowelCount implements StringFeaturizer {
 	
 	public static HashSet<Character> vowels = new HashSet<Character>();
@@ -15,7 +17,7 @@ public class VowelCount implements StringFeaturizer {
 		vowels.add('y');
 	}
 
-	public double[] featurize(String str, int wordSpaceAllocated) {
+	public double[] featurize(String str, TrainingContext tc) {
 		double numChars = str.length();
 		double vowelCount = 0;
 		double retval[] = new double[1];
@@ -27,7 +29,7 @@ public class VowelCount implements StringFeaturizer {
 		}
 		
 		if( numChars > 0 ){
-			retval[0] = vowelCount / wordSpaceAllocated;
+			retval[0] = vowelCount / tc.getMaxLength();
 		} else {
 			retval[0] = 0;
 		}

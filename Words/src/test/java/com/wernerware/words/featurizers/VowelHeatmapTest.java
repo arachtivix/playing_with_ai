@@ -4,13 +4,17 @@ package com.wernerware.words.featurizers;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.wernerware.words.TrainingContext;
+
 public class VowelHeatmapTest {
 
 	@Test
 	public void testAllConsonants() {
 		String toTest = "sdklfdlkjdfsl";
 		VowelHeatmap vhm = new VowelHeatmap();
-		double result[] = vhm.featurize(toTest,13);
+		TrainingContext tc = new TrainingContext();
+		tc.setMaxLength(13);
+		double result[] = vhm.featurize(toTest,tc);
 		
 		for( double d : result ){
 			Assert.assertEquals("Should be all zeroes for consonants",0,d,.001);
@@ -21,7 +25,9 @@ public class VowelHeatmapTest {
 	public void testAllVowels() {
 		String toTest = "iaueoyouaeoy";
 		VowelHeatmap vhm = new VowelHeatmap();
-		double result[] = vhm.featurize(toTest,12);
+		TrainingContext tc = new TrainingContext();
+		tc.setMaxLength(12);
+		double result[] = vhm.featurize(toTest,tc);
 		
 		for( double d : result ){
 			Assert.assertEquals("Should be all ones for vowels",1.0,d,.001);
@@ -32,7 +38,9 @@ public class VowelHeatmapTest {
 	public void testOneStartingVowel() {
 		String toTest = "icccc";
 		VowelHeatmap vhm = new VowelHeatmap();
-		double result[] = vhm.featurize(toTest,5);
+		TrainingContext tc = new TrainingContext();
+		tc.setMaxLength(5);
+		double result[] = vhm.featurize(toTest,tc);
 
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[0],.001);
 		Assert.assertEquals("Should be all ones for vowels",0.5,result[1],.001);
@@ -45,7 +53,9 @@ public class VowelHeatmapTest {
 	public void testOneEndingVowel() {
 		String toTest = "cccci";
 		VowelHeatmap vhm = new VowelHeatmap();
-		double result[] = vhm.featurize(toTest,5);
+		TrainingContext tc = new TrainingContext();
+		tc.setMaxLength(5);
+		double result[] = vhm.featurize(toTest,tc);
 
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[4],.001);
 		Assert.assertEquals("Should be all ones for vowels",0.5,result[3],.001);
@@ -58,7 +68,9 @@ public class VowelHeatmapTest {
 	public void testOneMiddleVowel() {
 		String toTest = "ccicc";
 		VowelHeatmap vhm = new VowelHeatmap();
-		double result[] = vhm.featurize(toTest,5);
+		TrainingContext tc = new TrainingContext();
+		tc.setMaxLength(5);
+		double result[] = vhm.featurize(toTest,tc);
 
 		Assert.assertEquals("Should be all ones for vowels",0.25,result[0],.001);
 		Assert.assertEquals("Should be all ones for vowels",0.5,result[1],.001);
@@ -71,7 +83,9 @@ public class VowelHeatmapTest {
 	public void testTwoSideVowels() {
 		String toTest = "iccci";
 		VowelHeatmap vhm = new VowelHeatmap();
-		double result[] = vhm.featurize(toTest,5);
+		TrainingContext tc = new TrainingContext();
+		tc.setMaxLength(5);
+		double result[] = vhm.featurize(toTest,tc);
 
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[0],.001);
 		Assert.assertEquals("Should be all ones for vowels",0.5,result[1],.001);
@@ -84,7 +98,9 @@ public class VowelHeatmapTest {
 	public void testTrailingZeroesWhereWordspaceExceedsWordLength() {
 		String toTest = "iccci";
 		VowelHeatmap vhm = new VowelHeatmap();
-		double result[] = vhm.featurize(toTest,8);
+		TrainingContext tc = new TrainingContext();
+		tc.setMaxLength(8);
+		double result[] = vhm.featurize(toTest,tc);
 
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[0],.001);
 		Assert.assertEquals("Should be all ones for vowels",0.5,result[1],.001);

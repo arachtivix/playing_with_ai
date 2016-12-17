@@ -1,9 +1,9 @@
 package com.wernerware.words.featurizers;
 
-import java.util.List;
+import com.wernerware.words.TrainingContext;
 
 public interface StringFeaturizer {
 	
-	public double[] featurize(String str, int wordSpaceAllocated);
+	public double[] featurize(String str, TrainingContext tc);
 
 }

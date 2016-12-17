@@ -2,6 +2,8 @@ package com.wernerware.words.featurizers;
 
 import java.util.HashSet;
 
+import com.wernerware.words.TrainingContext;
+
 public class VowelHeatmap implements StringFeaturizer {
 	
 	public static HashSet<Character> vowels = new HashSet<Character>();
@@ -15,7 +17,8 @@ public class VowelHeatmap implements StringFeaturizer {
 		vowels.add('y');
 	}
 	
-	public double[] featurize(String str, int wordSpaceAllocated){
+	public double[] featurize(String str, TrainingContext tc){
+		int wordSpaceAllocated = tc.getMaxLength();
 		double retval[] = new double[wordSpaceAllocated];
 		
 		for( int i = 0; i < retval.length && i < str.length(); i++ ){

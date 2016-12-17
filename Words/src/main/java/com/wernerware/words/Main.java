@@ -29,6 +29,8 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		
+		TrainingContext tc = new TrainingContext();
+		
 		List<StringFeaturizer> featurizers = new LinkedList<StringFeaturizer>();
 		featurizers.add(new VowelCount());
 		featurizers.add(new Size());
@@ -56,7 +58,9 @@ public class Main {
 		for( String word : words ){
 			maxLength = word.length() > maxLength ? word.length() : maxLength;
 		}
+		tc.setMaxLength(maxLength);
 		int numScenarios = words.length * 2;
+		tc.setNumScenarios(numScenarios);
 
 		double input[][] = new double[numScenarios][];
 		double expected[][] = new double[numScenarios][1];
@@ -67,8 +71,8 @@ public class Main {
 				randChars = generateRandomLowercaseCharacters((int)(maxLength*Math.random()*Math.random()));
 			} while( wordsSet.contains(randChars) );
 			
-			input[i*2] = encodeAndMarkup(words[i], maxLength, featurizers);
-			input[i*2+1] = encodeAndMarkup(randChars, maxLength, featurizers);
+			input[i*2] = encodeAndMarkup(words[i], tc, featurizers);
+			input[i*2+1] = encodeAndMarkup(randChars, tc, featurizers);
 			expected[i*2][0] = 1.0;
 			expected[i*2+1][0] = 0.0;
 		}
@@ -93,7 +97,7 @@ public class Main {
 		double highScore = 0;
 		for( int i = 0; i < 30; i++ ){
 			String go = generateRandomCharacters((int)(Math.random()*maxLength));
-			MLData fkerfkie = new BasicMLData(encodeAndMarkup(go,maxLength, featurizers));
+			MLData fkerfkie = new BasicMLData(encodeAndMarkup(go, tc, featurizers));
 			MLData computed = network.compute(fkerfkie);
 			System.out.println(go + " at " + computed.getData(0));
 			if( computed.getData(0) > highScore ){
@@ -104,11 +108,11 @@ public class Main {
 		
 		System.out.println("High scorer = " + highScorer + " at " + highScore);
 
-		System.out.println("Score for 'cat': " + network.compute(new BasicMLData(encodeAndMarkup("cat",maxLength, featurizers))).getData(0));
-		System.out.println("Score for 'potato': " + network.compute(new BasicMLData(encodeAndMarkup("potato",maxLength, featurizers))).getData(0));
-		System.out.println("Score for 'stream': " + network.compute(new BasicMLData(encodeAndMarkup("stream",maxLength, featurizers))).getData(0));
-		System.out.println("Score for 'fuck': " + network.compute(new BasicMLData(encodeAndMarkup("fuck",maxLength, featurizers))).getData(0));
-		System.out.println("Score for 'drive': " + network.compute(new BasicMLData(encodeAndMarkup("drive",maxLength, featurizers))).getData(0));
+		System.out.println("Score for 'cat': " + network.compute(new BasicMLData(encodeAndMarkup("cat", tc, featurizers))).getData(0));
+		System.out.println("Score for 'potato': " + network.compute(new BasicMLData(encodeAndMarkup("potato", tc, featurizers))).getData(0));
+		System.out.println("Score for 'stream': " + network.compute(new BasicMLData(encodeAndMarkup("stream", tc, featurizers))).getData(0));
+		System.out.println("Score for 'fuck': " + network.compute(new BasicMLData(encodeAndMarkup("fuck", tc, featurizers))).getData(0));
+		System.out.println("Score for 'drive': " + network.compute(new BasicMLData(encodeAndMarkup("drive", tc, featurizers))).getData(0));
 		
 	}
 	public static String printFloatArray(double in[]){
@@ -145,13 +149,15 @@ public class Main {
 		return new String(retvalArr);
 	}
 	
-	public static double[] encodeAndMarkup(String str, int wordSpaceAllocated, List<StringFeaturizer> featurizers){
+	public static double[] encodeAndMarkup(String str, TrainingContext tc, List<StringFeaturizer> featurizers){
 		List<Double> markups = new LinkedList<Double>();
 		for( StringFeaturizer sf : featurizers ){
-			for( double d : sf.featurize(str, wordSpaceAllocated) ){
+			for( double d : sf.featurize(str, tc) ){
 				markups.add(d);
 			}
 		}
+		
+		int wordSpaceAllocated = tc.getMaxLength();
 		
 		int retvalSize = wordSpaceAllocated+markups.size();
 		double retval[] = new double[retvalSize];
