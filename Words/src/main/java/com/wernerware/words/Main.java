@@ -2,6 +2,7 @@ package com.wernerware.words;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import com.wernerware.words.featurizers.Size;
 import com.wernerware.words.featurizers.StringFeaturizer;
 import com.wernerware.words.featurizers.VowelCount;
 import com.wernerware.words.featurizers.VowelHeatmap;
+import com.wernerware.words.featurizers.VowelHeatmapMetrics;
 
 public class Main {
 
@@ -35,17 +37,10 @@ public class Main {
 		featurizers.add(new VowelCount());
 		featurizers.add(new Size());
 		featurizers.add(new VowelHeatmap());
+		featurizers.add(new VowelHeatmapMetrics());
 
-		File file = new File("c:\\files\\words.txt");
-		FileReader fr = new FileReader(file);
-		BufferedReader br = new BufferedReader(fr);
-		
-		ArrayList<String> rawWords = new ArrayList<String>();
-		while( br.ready() ){
-			rawWords.add(br.readLine().trim());
-		}
-		
-		br.close();
+		String dictionaryFilePath = "c:\\files\\words.txt";
+		ArrayList<String> rawWords = Util.getWords(dictionaryFilePath);
 
 		String words[] = new String[rawWords.size()];
 		Set<String> wordsSet = new HashSet<String>();
@@ -90,7 +85,7 @@ public class Main {
 		do{
 			train.iteration();
 			System.out.println("EPOC = " + epoc++ + " err = " + train.getError());
-		} while(train.getError() > .01 && epoc < 20 );
+		} while(train.getError() > .01 && epoc < 70 );
 		
 		
 		String highScorer = null;
@@ -115,6 +110,7 @@ public class Main {
 		System.out.println("Score for 'drive': " + network.compute(new BasicMLData(encodeAndMarkup("drive", tc, featurizers))).getData(0));
 		
 	}
+	
 	public static String printFloatArray(double in[]){
 		String retval = "[";
 		for( int i = 0; i < in.length; i++ ){
