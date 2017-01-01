@@ -1,11 +1,8 @@
 package com.wernerware.words;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +18,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 
+import com.wernerware.words.featurizers.LetterComboFrequencyFeaturizer;
 import com.wernerware.words.featurizers.Size;
 import com.wernerware.words.featurizers.StringFeaturizer;
 import com.wernerware.words.featurizers.VowelCount;
@@ -41,6 +39,9 @@ public class Main {
 
 		String dictionaryFilePath = "c:\\files\\words.txt";
 		ArrayList<String> rawWords = Util.getWords(dictionaryFilePath);
+		
+		HashMap<String,Integer> freqs = new LetterComboFrequencyExtractor().extract(rawWords);
+		featurizers.add(new LetterComboFrequencyFeaturizer(freqs));
 
 		String words[] = new String[rawWords.size()];
 		Set<String> wordsSet = new HashSet<String>();

@@ -17,6 +17,19 @@ public class LetterComboFrequencyExtractor {
 		
 		System.out.println("Number of combinations: " + results.size());
 		
+		String mostCommonCombo = null;
+		Integer mostCommonComboFrequency = 0;
+		
+		for( String str : results.keySet() ){
+			Integer freq = results.get(str);
+			if( freq != null && freq > mostCommonComboFrequency ){
+				mostCommonComboFrequency = freq;
+				mostCommonCombo = str;
+			}
+		}
+		
+		System.out.println("Combo: " + mostCommonCombo + ":" + mostCommonComboFrequency);
+		
 	}
 	
 	public HashMap<String,Integer> extract(List<String> in){
