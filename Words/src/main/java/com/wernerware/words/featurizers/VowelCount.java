@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 import com.wernerware.words.TrainingContext;
 
-public class VowelCount implements StringFeaturizer {
+public class VowelCount extends StringFeaturizer {
 	
 	public static HashSet<Character> vowels = new HashSet<Character>();
 	

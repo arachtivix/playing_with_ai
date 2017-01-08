@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.wernerware.words.TrainingContext;
 
-public class ContainsMixedCaps implements StringFeaturizer {
+public class ContainsMixedCaps extends StringFeaturizer {
 	
 	private static String caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private static Set<Character> capsChars = new HashSet<Character>();

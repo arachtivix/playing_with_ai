@@ -6,7 +6,7 @@ import java.util.List;
 import com.wernerware.words.LetterComboFrequencyExtractor;
 import com.wernerware.words.TrainingContext;
 
-public class LetterComboFrequencyFeaturizer implements StringFeaturizer {
+public class LetterComboFrequencyFeaturizer extends StringFeaturizer {
 	
 	HashMap<String,Integer> freqs = new HashMap<String,Integer>();
 	Double mostCommonComboFrequency;

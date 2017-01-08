@@ -1,6 +1,8 @@
 package com.wernerware.words;
 
-public class TrainingContext {
+import java.io.Serializable;
+
+public class TrainingContext implements Serializable {
 	
 	private int maxLength, numScenarios;
 

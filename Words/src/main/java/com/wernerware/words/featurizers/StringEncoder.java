@@ -2,7 +2,7 @@ package com.wernerware.words.featurizers;
 
 import com.wernerware.words.TrainingContext;
 
-public class StringEncoder implements StringFeaturizer {
+public class StringEncoder extends StringFeaturizer {
 
 	public double[] featurize(String str, TrainingContext tc) {
 		int wordSpaceAllocated = tc.getMaxLength();

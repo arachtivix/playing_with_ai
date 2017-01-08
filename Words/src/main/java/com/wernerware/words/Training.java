@@ -1,6 +1,9 @@
 package com.wernerware.words;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,9 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.encog.engine.network.activation.ActivationSigmoid;
-import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataSet;
-import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
@@ -26,13 +27,21 @@ import com.wernerware.words.featurizers.VowelCount;
 import com.wernerware.words.featurizers.VowelHeatmap;
 import com.wernerware.words.featurizers.VowelHeatmapMetrics;
 
-public class Main {
+public class Training {
+
+	public static final String TRAINING_CONTEXT = "trainingContext";
+	public static final String NETWORK = "network";
+	public static final String FEATURIZERS = "featurizers";
 
 	public static void main(String[] args) throws IOException {
 		
+		HashMap<String,Object> saveStructure = new HashMap<String,Object>();
+		
 		TrainingContext tc = new TrainingContext();
+		saveStructure.put(TRAINING_CONTEXT, tc);
 		
 		List<StringFeaturizer> featurizers = new LinkedList<StringFeaturizer>();
+		saveStructure.put(FEATURIZERS, featurizers);
 		featurizers.add(new VowelCount());
 		featurizers.add(new Size());
 		featurizers.add(new VowelHeatmap());
@@ -67,17 +76,18 @@ public class Main {
 		for( int i = 0; i < words.length; i++ ){
 			String randChars;
 			do {
-				randChars = generateRandomLowercaseCharacters((int)(maxLength*Math.random()*Math.random()));
+				randChars = Util.generateRandomLowercaseCharacters((int)(maxLength*Math.random()*Math.random()));
 			} while( wordsSet.contains(randChars) );
 			
-			input[i*2] = encodeAndMarkup(words[i], tc, featurizers);
-			input[i*2+1] = encodeAndMarkup(randChars, tc, featurizers);
+			input[i*2] = Util.encodeAndMarkup(words[i], tc, featurizers);
+			input[i*2+1] = Util.encodeAndMarkup(randChars, tc, featurizers);
 			expected[i*2][0] = 1.0;
 			expected[i*2+1][0] = 0.0;
 		}
 		
 		MLDataSet trainingSet = new BasicMLDataSet(input,expected);
 		BasicNetwork network = new BasicNetwork();
+		saveStructure.put(NETWORK, network);
 		network.addLayer(new BasicLayer(null,true,input[0].length));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),true,input[0].length));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(),false,1));
@@ -89,80 +99,19 @@ public class Main {
 		do{
 			train.iteration();
 			System.out.println("EPOC = " + epoc++ + " err = " + train.getError());
-		} while(train.getError() > .01 && epoc < 70 );
+		} while(train.getError() > .01 && epoc < 100 );
 		
+		File saveFile = new File("C:\\files\\save" + System.currentTimeMillis() + ".obj");
+		FileOutputStream fos = new FileOutputStream(saveFile);
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		
-		String highScorer = null;
-		double highScore = 0;
-		for( int i = 0; i < 30; i++ ){
-			String go = generateRandomLowercaseCharacters((int)(Math.random()*maxLength));
-			MLData fkerfkie = new BasicMLData(encodeAndMarkup(go, tc, featurizers));
-			MLData computed = network.compute(fkerfkie);
-			System.out.println(go + " at " + computed.getData(0));
-			if( computed.getData(0) > highScore ){
-				highScore = computed.getData(0);
-				highScorer = go;
-			}
-		}
+		System.out.println("Saving file: " + saveFile.getName());
 		
-		System.out.println("High scorer = " + highScorer + " at " + highScore);
-
-		System.out.println("Score for 'cat': " + network.compute(new BasicMLData(encodeAndMarkup("cat", tc, featurizers))).getData(0));
-		System.out.println("Score for 'potato': " + network.compute(new BasicMLData(encodeAndMarkup("potato", tc, featurizers))).getData(0));
-		System.out.println("Score for 'stream': " + network.compute(new BasicMLData(encodeAndMarkup("stream", tc, featurizers))).getData(0));
-		System.out.println("Score for 'fuck': " + network.compute(new BasicMLData(encodeAndMarkup("fuck", tc, featurizers))).getData(0));
-		System.out.println("Score for 'drive': " + network.compute(new BasicMLData(encodeAndMarkup("drive", tc, featurizers))).getData(0));
+		oos.writeObject(saveStructure);
+		oos.close();
 		
-	}
-	
-	public static String printFloatArray(double in[]){
-		String retval = "[";
-		for( int i = 0; i < in.length; i++ ){
-			if( i < in.length - 1 ){
-				retval += in[i] + ",";
-			} else {
-				retval += in[i] + "]";
-			}
-		}
-		return retval;
-	}
-	
-	public static String generateRandomCharacters(int length){
-		String alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		char retvalArr[] = new char[length];
+		System.out.println("Done");
 		
-		for( int i = 0; i < length; i++ ){
-			retvalArr[i] = alpha.charAt((int)(Math.random()*length));
-		}
-		
-		return new String(retvalArr);
-	}
-	
-	public static String generateRandomLowercaseCharacters(int length){
-		String alpha = "abcdefghijklmnopqrstuvwxyz";
-		char retvalArr[] = new char[length];
-		
-		for( int i = 0; i < length; i++ ){
-			retvalArr[i] = alpha.charAt((int)(Math.random()*alpha.length()));
-		}
-		
-		return new String(retvalArr);
-	}
-	
-	public static double[] encodeAndMarkup(String str, TrainingContext tc, List<StringFeaturizer> featurizers){
-		List<Double> markups = new LinkedList<Double>();
-		for( StringFeaturizer sf : featurizers ){
-			for( double d : sf.featurize(str, tc) ){
-				markups.add(d);
-			}
-		}
-		
-		double retval[] = new double[markups.size()];
-		for( int i = 0; i < markups.size(); i++ ){
-			retval[i] = markups.get(i);
-		}
-		
-		return retval;
 	}
 	
 }

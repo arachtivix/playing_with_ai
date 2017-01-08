@@ -2,7 +2,7 @@ package com.wernerware.words.featurizers;
 
 import com.wernerware.words.TrainingContext;
 
-public class VowelHeatmapMetrics implements StringFeaturizer {
+public class VowelHeatmapMetrics extends StringFeaturizer {
 
 	public double[] featurize(String str, TrainingContext tc) {
 		double heatMapResults[] = new VowelHeatmap().featurize(str, tc);
