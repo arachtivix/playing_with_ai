@@ -20,7 +20,7 @@ public class WordTesting {
 
 	public static void main(String args[]) throws IOException, ClassNotFoundException{
 
-		File in = new File("C:\\files\\save1483901386213.obj");
+		File in = new File("C:\\files\\save1483905913276.obj");
 		FileInputStream fis = new FileInputStream(in);
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		HashMap<String,Object> saveStructure = (HashMap<String,Object>)ois.readObject();
@@ -55,7 +55,7 @@ public class WordTesting {
 		
 		System.out.println("Analyzing dictionary file for the least convincing real words");
 		
-		String dictionaryFilePath = "c:\\files\\words.txt";
+		String dictionaryFilePath = "c:\\files\\better-word-filtered.txt";
 		ArrayList<String> rawWords = Util.getWords(dictionaryFilePath);
 		final HashMap<String,Double> outcomes = new HashMap<String,Double>();
 		

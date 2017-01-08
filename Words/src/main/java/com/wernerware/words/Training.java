@@ -51,7 +51,7 @@ public class Training {
 		featurizers.add(new MaxStringOnlyVowelsOrConsonants(3));
 //		featurizers.add(new StringEncoder());
 
-		String dictionaryFilePath = "c:\\files\\words.txt";
+		String dictionaryFilePath = "c:\\files\\better-words.txt";
 		ArrayList<String> rawWords = Util.getWords(dictionaryFilePath);
 		
 		HashMap<String,Integer> freqs = new LetterComboFrequencyExtractor().extract(rawWords);
