@@ -35,8 +35,12 @@ public class VowelHeatmap implements StringFeaturizer {
 			}
 		}
 		
-		for( int i = str.length(); i < wordSpaceAllocated; i++ ){
-			retval[i] = 0;
+		for( int i = 0; i < wordSpaceAllocated; i++ ){
+			if( i < str.length() ){
+				retval[i] = .5 + retval[i] / 2.0;
+			} else {
+				retval[i] = 0;
+			}
 		}
 		
 		return retval;

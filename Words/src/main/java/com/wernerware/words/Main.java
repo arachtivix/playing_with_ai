@@ -18,12 +18,8 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 
-import com.wernerware.words.featurizers.LetterComboFrequencyFeaturizer;
-import com.wernerware.words.featurizers.Size;
+import com.wernerware.words.featurizers.ContainsMixedCaps;
 import com.wernerware.words.featurizers.StringFeaturizer;
-import com.wernerware.words.featurizers.VowelCount;
-import com.wernerware.words.featurizers.VowelHeatmap;
-import com.wernerware.words.featurizers.VowelHeatmapMetrics;
 
 public class Main {
 
@@ -32,16 +28,17 @@ public class Main {
 		TrainingContext tc = new TrainingContext();
 		
 		List<StringFeaturizer> featurizers = new LinkedList<StringFeaturizer>();
-		featurizers.add(new VowelCount());
-		featurizers.add(new Size());
-		featurizers.add(new VowelHeatmap());
-		featurizers.add(new VowelHeatmapMetrics());
+//		featurizers.add(new VowelCount());
+//		featurizers.add(new Size());
+//		featurizers.add(new VowelHeatmap());
+//		featurizers.add(new VowelHeatmapMetrics());
+		featurizers.add(new ContainsMixedCaps());
 
 		String dictionaryFilePath = "c:\\files\\words.txt";
 		ArrayList<String> rawWords = Util.getWords(dictionaryFilePath);
 		
 		HashMap<String,Integer> freqs = new LetterComboFrequencyExtractor().extract(rawWords);
-		featurizers.add(new LetterComboFrequencyFeaturizer(freqs));
+//		featurizers.add(new LetterComboFrequencyFeaturizer(freqs));
 
 		String words[] = new String[rawWords.size()];
 		Set<String> wordsSet = new HashSet<String>();

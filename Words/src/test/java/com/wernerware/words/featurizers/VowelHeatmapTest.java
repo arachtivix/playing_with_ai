@@ -17,7 +17,7 @@ public class VowelHeatmapTest {
 		double result[] = vhm.featurize(toTest,tc);
 		
 		for( double d : result ){
-			Assert.assertEquals("Should be all zeroes for consonants",0,d,.001);
+			Assert.assertEquals("Should be all 0.5 for consonants",0.5,d,.001);
 		}
 	}
 
@@ -43,10 +43,10 @@ public class VowelHeatmapTest {
 		double result[] = vhm.featurize(toTest,tc);
 
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[0],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.5,result[1],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.25,result[2],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.125,result[3],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.0625,result[4],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.75,result[1],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.625,result[2],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.5625,result[3],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.53125,result[4],.001);
 	}
 
 	@Test
@@ -58,10 +58,10 @@ public class VowelHeatmapTest {
 		double result[] = vhm.featurize(toTest,tc);
 
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[4],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.5,result[3],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.25,result[2],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.125,result[1],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.0625,result[0],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.75,result[3],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.625,result[2],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.5626,result[1],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.53125,result[0],.001);
 	}
 
 	@Test
@@ -72,11 +72,11 @@ public class VowelHeatmapTest {
 		tc.setMaxLength(5);
 		double result[] = vhm.featurize(toTest,tc);
 
-		Assert.assertEquals("Should be all ones for vowels",0.25,result[0],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.5,result[1],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.625,result[0],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.75,result[1],.001);
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[2],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.5,result[3],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.25,result[4],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.75,result[3],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.625,result[4],.001);
 	}
 
 	@Test
@@ -88,9 +88,9 @@ public class VowelHeatmapTest {
 		double result[] = vhm.featurize(toTest,tc);
 
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[0],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.5,result[1],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.25,result[2],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.5,result[3],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.75,result[1],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.625,result[2],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.75,result[3],.001);
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[4],.001);
 	}
 
@@ -103,9 +103,9 @@ public class VowelHeatmapTest {
 		double result[] = vhm.featurize(toTest,tc);
 
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[0],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.5,result[1],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.25,result[2],.001);
-		Assert.assertEquals("Should be all ones for vowels",0.5,result[3],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.75,result[1],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.625,result[2],.001);
+		Assert.assertEquals("Should be all ones for vowels",0.75,result[3],.001);
 		Assert.assertEquals("Should be all ones for vowels",1.0,result[4],.001);
 		Assert.assertEquals("Should be all ones for vowels",0.0,result[5],.001);
 		Assert.assertEquals("Should be all ones for vowels",0.0,result[6],.001);
