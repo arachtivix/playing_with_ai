@@ -21,6 +21,7 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 
 import com.wernerware.words.featurizers.ContainsMixedCaps;
 import com.wernerware.words.featurizers.LetterComboFrequencyFeaturizer;
+import com.wernerware.words.featurizers.MaxStringOnlyVowelsOrConsonants;
 import com.wernerware.words.featurizers.Size;
 import com.wernerware.words.featurizers.StringFeaturizer;
 import com.wernerware.words.featurizers.VowelCount;
@@ -47,6 +48,7 @@ public class Training {
 		featurizers.add(new VowelHeatmap());
 		featurizers.add(new VowelHeatmapMetrics());
 		featurizers.add(new ContainsMixedCaps());
+		featurizers.add(new MaxStringOnlyVowelsOrConsonants(3));
 //		featurizers.add(new StringEncoder());
 
 		String dictionaryFilePath = "c:\\files\\words.txt";
