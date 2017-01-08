@@ -19,6 +19,7 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 
 import com.wernerware.words.featurizers.ContainsMixedCaps;
+import com.wernerware.words.featurizers.StringEncoder;
 import com.wernerware.words.featurizers.StringFeaturizer;
 
 public class Main {
@@ -33,6 +34,7 @@ public class Main {
 //		featurizers.add(new VowelHeatmap());
 //		featurizers.add(new VowelHeatmapMetrics());
 		featurizers.add(new ContainsMixedCaps());
+		featurizers.add(new StringEncoder());
 
 		String dictionaryFilePath = "c:\\files\\words.txt";
 		ArrayList<String> rawWords = Util.getWords(dictionaryFilePath);
@@ -151,45 +153,10 @@ public class Main {
 			}
 		}
 		
-		int wordSpaceAllocated = tc.getMaxLength();
-		
-		int retvalSize = wordSpaceAllocated+markups.size();
-		double retval[] = new double[retvalSize];
-		double strEncoded[] = encode(str,wordSpaceAllocated);
-		for( int i = 0; i < wordSpaceAllocated; i++ ){
-			retval[i] = strEncoded[i];
-		}
+		double retval[] = new double[markups.size()];
 		for( int i = 0; i < markups.size(); i++ ){
-			retval[wordSpaceAllocated+i] = markups.get(i);
+			retval[i] = markups.get(i);
 		}
-		
-		return retval;
-	}
-	
-	public static double[] encode(String str, int size){
-		double retval[] = new double[size];
-		
-		for( int j = 0; j < size; j++ ){
-			if( j < str.length() ){
-				retval[j] = encode(str.charAt(j));
-			} else {
-				retval[j] = 1.0;
-			}
-		}
-		
-		return retval;
-	}
-	
-	public static double encode(char c){
-		double retval = (double)c;
-		
-		retval = retval - 65.0;
-		
-		if( retval < 0 || retval > 57 ){
-			retval = 58;
-		}
-		
-		retval = retval / 58.0;
 		
 		return retval;
 	}

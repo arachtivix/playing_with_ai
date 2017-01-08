@@ -6,19 +6,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 public class MainTest {
-
-	@Test
-	public void testEncode() {
-		
-		String alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		
-		for( char a : alpha.toCharArray() ){
-			double converted = Main.encode(a);
-			assertTrue(converted >= 0);
-			assertTrue(converted <= 1);
-		}
-		
-	}
 	
 	@Test
 	public void testRandomChars() {
